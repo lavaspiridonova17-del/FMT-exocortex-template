@@ -7,10 +7,10 @@ set -e
 # Конфигурация
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_DIR="$(dirname "$SCRIPT_DIR")"
-WORKSPACE="{{WORKSPACE_DIR}}/DS-strategy"
+WORKSPACE="/Users/vladaspiridonova/IWE/DS-strategy"
 PROMPTS_DIR="$REPO_DIR/prompts"
 LOG_DIR="$HOME/logs/strategist"
-CLAUDE_PATH="{{CLAUDE_PATH}}"
+CLAUDE_PATH="/Users/vladaspiridonova/.local/bin/claude"
 
 # Создаём папку для логов
 mkdir -p "$LOG_DIR"
@@ -174,7 +174,7 @@ case "$1" in
         log "Sunday: running week review"
         run_claude "week-review"
         # Fallback push for Knowledge Index (week-review creates a post there)
-        KI_REPO="{{WORKSPACE_DIR}}/DS-Knowledge-Index"
+        KI_REPO="/Users/vladaspiridonova/IWE/DS-Knowledge-Index"
         if git -C "$KI_REPO" log --oneline -1 --since="1 hour ago" --grep="week-review" 2>/dev/null | grep -q .; then
             git -C "$KI_REPO" push >> "$LOG_FILE" 2>&1 && log "Pushed Knowledge Index (fallback)" || log "WARN: KI push failed"
         fi
