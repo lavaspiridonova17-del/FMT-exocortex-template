@@ -58,6 +58,18 @@ do_backup() {
   fi
 
   log "  Скопировано: $count файлов → $EXOCORTEX_DST/"
+
+  # Тетради курсов: DS-principles-curriculum не под git, единственный экземпляр на диске.
+  # Копируются в тот же бэкап-контур, что и memory (решение 24.08, АрхГейт 8.4).
+  if [ -d "$WORKSPACE_DIR/DS-principles-curriculum" ]; then
+    mkdir -p "$EXOCORTEX_DST/curriculum"
+    cp -R "$WORKSPACE_DIR/DS-principles-curriculum/." "$EXOCORTEX_DST/curriculum/"
+    local cur_count
+    cur_count=$(find "$EXOCORTEX_DST/curriculum" -type f | wc -l | tr -d ' ')
+    log "  Тетради курсов: $cur_count файлов → $EXOCORTEX_DST/curriculum/"
+  else
+    log "  Тетради курсов: директория не найдена, пропуск"
+  fi
 }
 
 # --- Шаг 2: Knowledge-MCP reindex ---
